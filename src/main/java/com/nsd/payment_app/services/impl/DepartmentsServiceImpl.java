@@ -43,7 +43,7 @@ public class DepartmentsServiceImpl implements DepartmentsService {
 			response.put("status", 500);
 			response.put("data", null);
 		}
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }
