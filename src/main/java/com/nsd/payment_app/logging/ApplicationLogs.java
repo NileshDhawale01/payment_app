@@ -20,7 +20,7 @@ public class ApplicationLogs {
 
 	@Pointcut(value = "execution(* com.nsd.payment_app.*.*.*(..) )")
 	public void myPointcut() {
-
+		
 	}
 
 	@Around("myPointcut()")
