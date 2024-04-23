@@ -36,6 +36,9 @@ public class EmployeesServiceImpl implements EmployeesService {
 	public ResponseEntity<Map<String, Object>> addEmployee(EmployeesDto employeesDto) {
 
 		Employees employees = EmployeesMapper.TO_EMPLOYEES.apply(employeesDto).orElse(null);
+		Departments departments = new Departments();
+		departments.setDepartmentId(employeesDto.getDepartmentsDto().getDepartmentId());
+		employees.setDepartments(departments);
 
 		Map<String, Object> response = new HashMap<>();
 		if (Objects.nonNull(employees)) {
