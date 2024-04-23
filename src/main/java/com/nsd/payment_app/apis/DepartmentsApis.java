@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,5 +40,15 @@ public class DepartmentsApis {
 		map.put("Hpbby", "Science");
 		map.put("Id", Id);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+
+	@PostMapping("/{id}")
+	public ResponseEntity<Map<String, Object>> testing(@PathVariable Integer id,
+			@RequestBody Map<String, Object> data) {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("ID", id);
+		map.put("Map", data);
+		return new ResponseEntity(map, HttpStatusCode.valueOf(200));
 	}
 }

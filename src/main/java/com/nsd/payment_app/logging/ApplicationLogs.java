@@ -18,25 +18,32 @@ import jakarta.servlet.http.HttpServletRequest;
 @Aspect
 public class ApplicationLogs {
 
+	static boolean requestEntry = false;
+
 	@Pointcut(value = "execution(* com.nsd.payment_app.*.*.*(..) )")
 	public void myPointcut() {
-		
+
 	}
 
 	@Around("myPointcut()")
 	public Object logsData(ProceedingJoinPoint point) throws Throwable {
 
 		ObjectMapper mapper = new ObjectMapper();
-		String method = point.getSignature().getName();
-		Object[] args = point.getArgs();
 		Object object = point.proceed();
 
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-				.getRequest();
-		System.out.println("Method :: " + method + " \nArgs :: " + mapper.writeValueAsString(args) + " \nEnd Point :: "
-				+ request.getRequestURI() + " \nMethod Type :: " + request.getMethod() + " \nTime :: "
-				+ LocalDateTime.now());
+		if (requestEntry) {
+			String method = point.getSignature().getName();
+			Object[] args = point.getArgs();
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+					.getRequest();
+			System.out.println("Method :: " + method + " \nArgs :: " + mapper.writeValueAsString(args)
+					+ " \nEnd Point :: " + request.getRequestURI() + " \nMethod Type :: " + request.getMethod()
+					+ " \nTime :: " + LocalDateTime.now());
+			return object;
+		} else {
+			ApplicationLogs.requestEntry = true;
+			return object;
+		}
 
-		return object;
 	}
 }
